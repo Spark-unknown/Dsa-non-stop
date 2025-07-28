@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        int max_or = 0;
+        for(int num:nums)
+        {
+            max_or |= num; 
+        }
+        int count = 0;
+
+        function<void(int,int)> dfs = [&](int i, int curr_or) {
+            if (i == nums.size()) {
+                if (curr_or == max_or) count++;
+                return;
+            }
+
+            dfs(i + 1, curr_or | nums[i]);
+
+            dfs(i + 1, curr_or);
+        };
+
+        dfs(0, 0);
+        return count;
+    }
+};
